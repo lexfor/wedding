@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Свадьба Ксении и Тимофея</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #FFF9F9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .link {
+            color: #89B37F;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover {
+            color: #D4AF37;
+            text-decoration: underline;
+        }
+
+        .tab-container {
+            max-width: 100%;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: #D4AF37;
+        }
+
+        .tab-btn.active {
+            color: #89B37F;
+            border-bottom: 2px solid #89B37F;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: slideDown 0.6s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wedding-wrapper {
+            background: url('https://usadbagrodno.by/wp-content/uploads/2023/02/1-734.jpg') center/cover no-repeat;
+            padding: 60px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .wedding-info {
+            text-align: center;
+            padding: 200px 20px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .wedding-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #89B37F;
+            text-align: center;
+        }
+
+        .wedding-date {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #89B37F;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            color: #333;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s ease;
+        }
+
+        .details-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .details-title {
+            font-size: 18px;
+            color: #89B37F;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .details-title svg {
+            margin-right: 8px;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            gap: 25px;
+        }
+
+        .polaroid {
+            width: 220px;
+            min-width: 220px;
+            padding: 15px 15px 30px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            transform: rotate(-1deg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .polaroid:after {
+            content: '';
+            position: absolute;
+            bottom: 15px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 20px;
+            background: rgba(0,0,0,0.03);
+            transform: rotate(-1deg);
+            z-index: -1;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .schedule-photo {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        .schedule-content {
+            flex: 1;
+            padding-top: 10px;
+        }
+
+        .schedule-time {
+            font-weight: 600;
+            color: #89B37F;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .schedule-desc {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .search-container {
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>');
+            background-repeat: no-repeat;
+            background-position: 95% center;
+            background-size: 20px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .table-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #89B37F;
+        }
+
+        .toggle-icon {
+            transition: all 0.3s ease;
+        }
+
+        .table-guests {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .table-guests.show {
+            max-height: 600px;
+        }
+
+        .guest-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .guest-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .scheme-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #89B37F 0%, #A8D1A0 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(137, 179, 127, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .scheme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(137, 179, 127, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .schedule-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+            }
+            .polaroid {
+                width: 100%;
+                max-width: 250px;
+                margin-bottom: 15px;
+            }
+            .schedule-content {
+                text-align: center;
+                width: 100%;
+            }
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+            .wedding-title {
+                font-size: 24px;
+            }
+            .wedding-date {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="tab-container">
+    <div class="tab-buttons">
+        <button class="tab-btn active" onclick="openTab('info')">О свадьбе</button>
+        <button class="tab-btn" onclick="openTab('seating')">Рассадка</button>
+    </div>
+
+    <div id="info" class="tab-content active">
+        <div class="wedding-wrapper">
+            <div class="wedding-info">
+                <h1 class="wedding-title">Ксения & Тимофей</h1>
+                <p class="wedding-date">13 сентября 2025 · Усадьба Голд</p>
+
+            </div>
+        </div>
+
+        <div class="details-card">
+            <h3 class="details-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89B37F" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Расписание
+            </h3>
+
+            <div class="schedule-item">
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Церемония" class="schedule-photo">
+                    <p style="text-align: center; color: #666; font-size: 14px;">Церемония</p>
+                </div>
+                <div class="schedule-content">
+                    <p class="schedule-time">15:00 — Фуршет</p>
+                    <p class="schedule-desc">Изысканные угощения и напитки. Фуршетная зона будет находится в саду.</p>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="polaroid">
+                    <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Церемония" class="schedule-photo">
+                    <p style="text-align: center; color: #666; font-size: 14px;">Церемония</p>
+                </div>
+                <div class="schedule-content">
+                    <p class="schedule-time">15:30 — Церемония</p>
+                    <p class="schedule-desc">Торжественное бракосочетание. Дресс-код: вечерние наряды. После церемонии - фотосессия с молодыми на территории усадьбы.</p>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="polaroid">
+                    <img src="https://tse1.mm.bing.net/th?id=OIP.C-IC3NWuGtCBNO-wJWef-gHaHa&w=474&h=474&c=7" alt="Банкет" class="schedule-photo">
+                    <p style="text-align: center; color: #666; font-size: 14px;">Банкет</p>
+                </div>
+                <div class="schedule-content">
+                    <p class="schedule-time">16:30 — Банкет</p>
+                    <p class="schedule-desc">Конкурсы, живая музыка и дискотека с профессиональным DJ.</p>
+                </div>
+            </div>
+
+            <div class="schedule-item">
+                <div class="polaroid">
+                    <img src="https://photo.brestcity.com/2024/06/salut7.jpg" alt="Завершение вечера" class="schedule-photo">
+                    <p style="text-align: center; color: #666; font-size: 14px;">Танцы</p>
+                </div>
+                <div class="schedule-content">
+                    <p class="schedule-time">23:00 — Завершение вечера</p>
+                    <p class="schedule-desc">Запуск салюта и завршения основной программы вечера.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="details-card">
+            <h3 class="details-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89B37F" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Адрес
+            </h3>
+            <p>Усадьба "Голд" (деревня Волковичи, улица Посёлковая 15Б)</p>
+            <p><a class="link" href="https://yandex.by/maps/-/CHV8MVMy">Открыть карту →</a></p>
+        </div>
+
+        <div class="details-card">
+            <h3 class="details-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89B37F" stroke-width="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Трансфер
+            </h3>
+            <p>Трансфер отбывает от станции метро "Малиновка" в 14:30</p>
+            <p><a class="link" href="https://yandex.by/maps/-/CHrV7UnF">Открыть карту →</a></p>
+        </div>
+
+        <div class="details-card">
+            <h3 class="details-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89B37F" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                Контакты
+            </h3>
+            <p><strong>Ведущий:</strong> Артём Ковалёнок</p>
+            <p><a class="link" href="tel:+375336354181">+375 33 635-41-81</a></p>
+
+            <p><strong>Координатор:</strong> Александра Скидан</p>
+            <p><a class="link" href="tel:+375297327729">+375 29 732-77-29</a></p>
+        </div>
+    </div>
+
+    <div id="seating" class="tab-content">
+        <div class="header">
+            <h2 style="text-align: center; margin-bottom: 20px;">План рассадки</h2>
+        </div>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Найти своё место...">
+        </div>
+
+        <div class="tables-list">
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 1: Родители жениха и друзья</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👱‍♀️</span>
+                        <span>Елена Киневич</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👱‍♂️</span>
+                        <span>Олег Киневич</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">🧒</span>
+                        <span>Матвей Киневич</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍🦰</span>
+                        <span>Леонид</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰️</span>
+                        <span>Любовь</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍💼</span>
+                        <span>Александр Евдакимович</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍</span>
+                        <span>Наталья Евдакимович</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍💼</span>
+                        <span>Сергей Леший</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍</span>
+                        <span>Наталья Леший</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 2: Родственники жениха</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👮‍♂️</span>
+                        <span>Алексей Ключников</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍🎓</span>
+                        <span>Константин Ключников</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👦</span>
+                        <span>Илья Ключников</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Сергей Артишевский</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>Лариса Артишевская</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👵</span>
+                        <span>Людмила Ключникова</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👵</span>
+                        <span>Анна Киневич</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👷</span>
+                        <span>Александр Киневич</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🏫</span>
+                        <span>Светлана Горбач</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👷</span>
+                        <span>Сергей Горбач</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 3: Друзья жениха</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍🦳</span>
+                        <span>Тимофей Ковалев</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Аня</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🥷</span>
+                        <span>Александр Лабков</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>TBD</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Владислав Миленький</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>TBD</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Егор Ковалевский</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Полина</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 4: Друзья жениха</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Дмитрий Марудка</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍💼</span>
+                        <span>Ольга</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💻</span>
+                        <span>Дмитрий Федоров</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Валерия Федорова</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👷</span>
+                        <span>Александр Найда</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👷</span>
+                        <span>TBD</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Егор Бойко</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Анастасия </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 5: Родственники невесты</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Инна Стадуб</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍🦰️</span>
+                        <span>Сергей Стадуб</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨</span>
+                        <span>Константин Стадуб</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍⚕️</span>
+                        <span>Абдул</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍🎓</span>
+                        <span>Захар</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Ольга Пиварчук</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍🦰️</span>
+                        <span>Денис Пиварчук</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Татьяна</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍🦰️</span>
+                        <span>TBD</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 6: Родственники невесты</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👵</span>
+                        <span>Галина Корик</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👱‍♀️</span>
+                        <span>Нина Ниборская</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍🦲</span>
+                        <span>Михаил Ниборский</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Ирина Ниборская</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👧️</span>
+                        <span>Василиса</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👧️</span>
+                        <span>Самира</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">🧑‍💼</span>
+                        <span>Виталий</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>Елена</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 7: Родственники невесты</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👱‍♂️</span>
+                        <span>Александр</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍🦰</span>
+                        <span>Наталья</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Виктория</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨</span>
+                        <span>Олег</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👦</span>
+                        <span>Егор</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>Юлия</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">🧔‍♂️</span>
+                        <span>Михаил</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👦</span>
+                        <span>Ярослав</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👧</span>
+                        <span>Соня</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header" onclick="toggleGuests(this)">
+                    <span class="table-title">Стол 8: Друзья невесты</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="table-guests">
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>Полина</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👮</span>
+                        <span>Егор</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩</span>
+                        <span>Елизавета</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Артем Пиворчук</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍💼️</span>
+                        <span>Алёна</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Арина</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍⚕️</span>
+                        <span>TBD</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Юлия</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Полина</span>
+                    </div>
+                    <div class="guest-item">
+                        <span class="guest-icon">👮‍♂️️</span>
+                        <span>Сергей</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👩‍⚕️</span>
+                        <span>Анна</span>
+                    </div>
+
+                    <div class="guest-item">
+                        <span class="guest-icon">👨‍💼</span>
+                        <span>Никита</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="scheme-btn">Показать схему зала</button>
+    </div>
+</div>
+
+<script>
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            } else {
+                entry.target.classList.remove('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.details-card').forEach(card => observer.observe(card));
+
+    // Переключение вкладок
+    function openTab(tabId) {
+        const tabs = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Функции для рассадки
+    function toggleGuests(header) {
+        const card = header.parentElement;
+        const guests = card.querySelector('.table-guests');
+        const icon = card.querySelector('.toggle-icon');
+
+        guests.classList.toggle('show');
+        icon.textContent = guests.classList.contains('show') ? '▲' : '▼';
+    }
+
+    document.querySelector('.search-box')?.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const guests = document.querySelectorAll('.guest-item');
+
+        guests.forEach(guest => {
+            const name = guest.textContent.toLowerCase();
+            guest.style.display = name.includes(searchTerm) ? 'flex' : 'none';
+
+            if (name.includes(searchTerm)) {
+                guest.closest('.table-guests').classList.add('show');
+                guest.closest('.table-card').querySelector('.toggle-icon').textContent = '▲';
+            }
+        });
+    });
+</script>
+</body>
+</html>
